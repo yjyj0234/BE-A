@@ -19,6 +19,8 @@ public class ClassResponse {
 
     private Integer capacity;
 
+    private String status;
+
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;

@@ -61,4 +61,9 @@ public class LectureClass {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public void increaseEnrollmentCount() {
+        this.currentEnrollmentCount++;
+    }
 }
+

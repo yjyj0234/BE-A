@@ -44,9 +44,10 @@ public class LectureServiceImpl implements LectureService {
         return ClassResponse.builder()
                 .id(savedClass.getId())
                 .title(savedClass.getTitle())
-                .description(savedClass.getTitle())
+                .description(savedClass.getDescription())
                 .price(savedClass.getPrice())
                 .capacity(savedClass.getCapacity())
+                .status(savedClass.getStatus().name())
                 .startDate(savedClass.getStartDate())
                 .endDate(savedClass.getEndDate())
                 .build();
