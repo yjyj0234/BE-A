@@ -1,7 +1,19 @@
 package com.project.bea.lecture.repository;
 
 import com.project.bea.lecture.domain.LectureClass;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 public interface LectureClassRepository extends JpaRepository<LectureClass, Long> {
+
+    //동시성 처리 관련 비관적 락 메서드
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select a from LectureClass a where a.id = :classId")
+    Optional<LectureClass> findByIdForUpdate(@Param("classId") Long classId);
+
 }

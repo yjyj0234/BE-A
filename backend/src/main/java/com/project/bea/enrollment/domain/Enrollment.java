@@ -49,4 +49,33 @@ public class Enrollment {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public void confirm() {
+        if (this.status != EnrollmentStatus.PENDING) {
+            throw new IllegalStateException("결제 대기 상태에서만 결제 확정할 수 있습니다.");
+        }
+
+        this.status = EnrollmentStatus.CONFIRMED;
+        this.paidAt = LocalDateTime.now();
+
+    }
+
+    public void cancel() {
+        if (this.status == EnrollmentStatus.CANCELLED) {
+            throw new IllegalStateException("이미 취소된 신청입니다.");
+        }
+
+        if (this.status == EnrollmentStatus.CONFIRMED) {
+            if (this.paidAt == null) {
+                throw new IllegalStateException("결제 확정 시간이 존재하지 않습니다.");
+            }
+
+            if (this.paidAt.plusDays(7).isBefore(LocalDateTime.now())) {
+                throw new IllegalStateException("결제 후 7일이 지나 취소할 수 없습니다.");
+            }
+        }
+
+        this.status = EnrollmentStatus.CANCELLED;
+        this.cancelledAt = LocalDateTime.now();
+    }
 }

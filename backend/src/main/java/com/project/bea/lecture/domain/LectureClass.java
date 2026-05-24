@@ -63,7 +63,24 @@ public class LectureClass {
     private LocalDateTime updatedAt;
 
     public void increaseEnrollmentCount() {
+        if(this.currentEnrollmentCount >= this.capacity) {
+            throw  new IllegalStateException("수강 정원이 초과되었습니다.");
+        }
         this.currentEnrollmentCount++;
     }
+
+    public void decreaseEnrollmentCount() {
+        if (this.currentEnrollmentCount <= 0) {
+            throw new IllegalStateException("신청 인원은 0명보다 작을 수 없습니다.");
+        }
+
+        this.currentEnrollmentCount--;
+    }
+
+    //신청 가능한 강의 여부
+    public  boolean isOpen() {
+        return this.status == ClassStatus.OPEN;
+    }
+
 }
 
