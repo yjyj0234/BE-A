@@ -220,7 +220,7 @@ http://localhost:8080/swagger-ui/index.html
 #### 1. 강의 등록
 
 ```http
-POST /classes
+POST /api/classes/createClass
 ```
 
 Request
@@ -228,8 +228,8 @@ Request
 ```json
 {
   "creatorId": 1,
-  "title": "Spring Boot 강의",
-  "description": "백엔드 기초 강의",
+  "title": "test 강의",
+  "description": "test 강의",
   "price": 10000,
   "capacity": 30,
   "startDate": "2026-06-01T10:00:00",
@@ -242,7 +242,7 @@ Request
 #### 2. 강의 목록 조회
 
 ```http
-GET /classes/getClasses
+GET /api/classes/getClasses
 ```
 
 ---
@@ -250,7 +250,9 @@ GET /classes/getClasses
 #### 3. 상태별 강의 조회
 
 ```http
-GET /classes/getClasses?status=OPEN
+GET /api/classes/getClasses?status=OPEN
+GET /api/classes/getClasses?status=DRAFT
+GET /api/classes/getClasses?status=CLOSED
 ```
 
 ---
@@ -258,7 +260,7 @@ GET /classes/getClasses?status=OPEN
 #### 4. 강의 상세 조회
 
 ```http
-GET /classes/{id}
+GET /api/classes/getClass/{id}
 ```
 
 ---
@@ -266,7 +268,7 @@ GET /classes/{id}
 #### 5. 강의 모집 시작
 
 ```http
-PATCH /classes/{classId}/open?creatorId=1
+PATCH /api/classes/{classId}/open?creatorId=1
 ```
 
 ---
@@ -274,7 +276,7 @@ PATCH /classes/{classId}/open?creatorId=1
 #### 6. 강의 모집 마감
 
 ```http
-PATCH /classes/{classId}/close?creatorId=1
+PATCH /api/classes/{classId}/close?creatorId=1
 ```
 
 ---
@@ -284,7 +286,7 @@ PATCH /classes/{classId}/close?creatorId=1
 #### 1. 수강 신청
 
 ```http
-POST /enrollments
+POST /api/enrollment/createEnrollment
 ```
 
 Request
@@ -301,7 +303,7 @@ Request
 #### 2. 결제 확정
 
 ```http
-PATCH /enrollments/{id}/confirm?studentId=2
+PATCH /api/enrollment/{enrollmentId}/confirm?studentId=2
 ```
 
 ---
@@ -309,7 +311,7 @@ PATCH /enrollments/{id}/confirm?studentId=2
 #### 3. 수강 취소
 
 ```http
-PATCH /enrollments/{id}/cancel?studentId=2
+PATCH /api/enrollment/{enrollmentId}/cancel?studentId=2
 ```
 
 ---
@@ -317,7 +319,7 @@ PATCH /enrollments/{id}/cancel?studentId=2
 #### 4. 내 수강 신청 목록 조회
 
 ```http
-GET /enrollments/me?studentId=2&page=0&size=10
+GET /api/enrollment/getMyEnrollments?studentId=2&page=0&size=10
 ```
 
 ---
@@ -325,7 +327,7 @@ GET /enrollments/me?studentId=2&page=0&size=10
 #### 5. 강의별 수강생 목록 조회
 
 ```http
-GET /enrollments/classes/{classId}/students?creatorId=1&page=0&size=10
+GET /api/enrollment/getClassUsers/{classId}/users?creatorId=1&page=0&size=10
 ```
 
 ---
