@@ -83,9 +83,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     @Transactional
-    public EnrollmentResponse confirmEnrollment(Long enrollmentId) {
+    public EnrollmentResponse confirmEnrollment(Long enrollmentId, Long studentId) {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new IllegalArgumentException("신청 내역을 찾을 수 없습니다"));
+
+        if (!enrollment.getStudent().getId().equals(studentId)) {
+            throw new IllegalArgumentException("신청한 사용자만 처리할 수 있습니다.");
+        }
+
         enrollment.confirm();
 
         return EnrollmentResponse.builder()
@@ -98,9 +103,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     @Transactional
-    public EnrollmentResponse cancelEnrollment(Long enrollmentId) {
+    public EnrollmentResponse cancelEnrollment(Long enrollmentId, Long studentId) {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new IllegalArgumentException("신청 내역을 찾을 수 없습니다."));
+
+        if (!enrollment.getStudent().getId().equals(studentId)) {
+            throw new IllegalArgumentException("신청한 사용자만 처리할 수 있습니다.");
+        }
 
         enrollment.cancel();
 
@@ -133,4 +142,28 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                         .status(enrollment.getStatus().name())
                         .build());
     }
+
+    @Override
+    public Page<EnrollmentResponse> getClassUsers(Long classId, Long creatorId, Pageable pageable) {
+        LectureClass lectureClass = lectureClassRepository.findById(classId)
+                .orElseThrow(() -> new IllegalArgumentException("강의를 찾을 수 없습니다."));
+
+        if (!lectureClass.getCreator().getId().equals(creatorId)) {
+            throw new IllegalArgumentException("강의 생성자만 수강생 목록을 조회할 수 있습니다.");
+        }
+
+        return enrollmentRepository.findByLectureClassId(classId, pageable)
+                .map(this::toResponse);
+    }
+
+    private EnrollmentResponse toResponse(Enrollment enrollment) {
+        return EnrollmentResponse.builder()
+                .id(enrollment.getId())
+                .classId(enrollment.getLectureClass().getId())
+                .studentId(enrollment.getStudent().getId())
+                .status(enrollment.getStatus().name())
+                .build();
+    }
 }
+
+

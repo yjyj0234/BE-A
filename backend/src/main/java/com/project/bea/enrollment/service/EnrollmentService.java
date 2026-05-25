@@ -11,9 +11,11 @@ public interface EnrollmentService {
 
     EnrollmentResponse createEnrollment(CreateEnrollmentRequest request);
 
-    EnrollmentResponse confirmEnrollment(Long enrollmentId);
+    EnrollmentResponse confirmEnrollment(Long enrollmentId, Long studentId);
 
-    EnrollmentResponse cancelEnrollment(Long enrollmentId);
+    EnrollmentResponse cancelEnrollment(Long enrollmentId, Long studentId);
 
     Page<EnrollmentResponse> getMyEnrollments(Long studentId, Pageable pageable);
+
+    Page<EnrollmentResponse> getClassUsers(Long classId, Long creatorId, Pageable pageable);
 }

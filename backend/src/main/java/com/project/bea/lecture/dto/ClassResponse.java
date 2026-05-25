@@ -19,6 +19,8 @@ public class ClassResponse {
 
     private Integer capacity;
 
+    private Integer currentEnrollmentCount;
+
     private String status;
 
     private LocalDateTime startDate;

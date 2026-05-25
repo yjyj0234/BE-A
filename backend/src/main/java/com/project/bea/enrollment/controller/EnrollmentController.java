@@ -5,7 +5,9 @@ import com.project.bea.enrollment.dto.EnrollmentResponse;
 import com.project.bea.enrollment.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,18 +24,29 @@ public class EnrollmentController {
         return enrollmentService.createEnrollment(request);
     }
 
-    @PatchMapping("/confirm/{enrollmentId}")
-    public EnrollmentResponse confirmEnrollment(@PathVariable Long enrollmentId) {
-        return enrollmentService.confirmEnrollment(enrollmentId);
+    @PatchMapping("/{enrollmentId}/confirm")
+    public EnrollmentResponse confirmEnrollment(@PathVariable Long enrollmentId,@RequestParam Long studentId) {
+        return enrollmentService.confirmEnrollment(enrollmentId, studentId);
     }
 
-    @PatchMapping("/cancel/{enrollmentId}")
-    public EnrollmentResponse cancelEnrollment(@PathVariable Long enrollmentId) {
-        return enrollmentService.cancelEnrollment(enrollmentId);
+    @PatchMapping("/{enrollmentId}/cancel")
+    public EnrollmentResponse cancelEnrollment(@PathVariable Long enrollmentId,@RequestParam Long studentId) {
+        return enrollmentService.cancelEnrollment(enrollmentId, studentId);
     }
 
     @GetMapping("/getMyEnrollments")
-    public Page<EnrollmentResponse> getMyEnrollments(@RequestParam Long studentId, Pageable pageable) {
+    public Page<EnrollmentResponse> getMyEnrollments(@RequestParam Long studentId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
         return enrollmentService.getMyEnrollments(studentId, pageable);
+    }
+
+    @GetMapping("getClassUsers/{classId}/users")
+    public Page<EnrollmentResponse> getClassUsers(
+            @PathVariable Long classId, @RequestParam Long creatorId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return enrollmentService.getClassUsers(classId, creatorId, pageable);
     }
 }

@@ -1,5 +1,6 @@
 package com.project.bea.lecture.repository;
 
+import com.project.bea.lecture.domain.ClassStatus;
 import com.project.bea.lecture.domain.LectureClass;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LectureClassRepository extends JpaRepository<LectureClass, Long> {
@@ -16,4 +18,5 @@ public interface LectureClassRepository extends JpaRepository<LectureClass, Long
     @Query("select a from LectureClass a where a.id = :classId")
     Optional<LectureClass> findByIdForUpdate(@Param("classId") Long classId);
 
+    List<LectureClass> findByStatus(ClassStatus status);
 }

@@ -67,6 +67,8 @@ public class LectureClass {
             throw  new IllegalStateException("수강 정원이 초과되었습니다.");
         }
         this.currentEnrollmentCount++;
+
+        closeIfFull();
     }
 
     public void decreaseEnrollmentCount() {
@@ -82,5 +84,26 @@ public class LectureClass {
         return this.status == ClassStatus.OPEN;
     }
 
+    public void closeIfFull() {
+        if (this.currentEnrollmentCount >= this.capacity) {
+            this.status = ClassStatus.CLOSED;
+        }
+    }
+
+    public void open() {
+        if (this.status != ClassStatus.DRAFT) {
+            throw new IllegalStateException("초안 상태의 강의만 모집 시작할 수 있습니다.");
+        }
+
+        this.status = ClassStatus.OPEN;
+    }
+
+    public void close() {
+        if (this.status == ClassStatus.CLOSED) {
+            throw new IllegalStateException("이미 마감된 강의입니다.");
+        }
+
+        this.status = ClassStatus.CLOSED;
+    }
 }
 
