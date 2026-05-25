@@ -140,7 +140,7 @@ http://localhost:8080/swagger-ui/index.html
 강의(Class)와 수강 신청(Enrollment)의 상태를 Enum으로 관리하여
 상태 전이를 명확하게 표현하였습니다.
 
-#### Lecture 상태
+#### Class 상태
 - DRAFT
 - OPEN
 - CLOSED
@@ -192,8 +192,6 @@ http://localhost:8080/swagger-ui/index.html
 
 ### 미구현 항목
 - 대기열(waitlist) 기능
-- 기간 만료 자동 CLOSED 처리
-- JWT 기반 인증/인가
 
 ### 제약사항
 - 실제 로그인 기능 없이 요청 파라미터 기반으로 사용자 권한을 구분하였습니다.
@@ -350,7 +348,7 @@ GET /enrollments/classes/{classId}/students?creatorId=1&page=0&size=10
 
 ---
 
-### Classes (`classes`)
+### LectureClass (`classes`)
 
 강의 정보를 저장하는 테이블입니다.  
 크리에이터가 강의를 생성하며, 강의 상태와 정원 정보를 관리합니다.
