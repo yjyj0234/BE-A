@@ -334,42 +334,69 @@ GET /enrollments/classes/{classId}/students?creatorId=1&page=0&size=10
 
 ## 데이터 모델 설명
 
-### User
+### User (`users`)
 
-| 필드 | 설명 |
-|---|---|
-| id | 사용자 ID |
-| name | 사용자 이름 |
-| email | 이메일 |
-| role | 사용자 역할(CREATOR/STUDENT) |
+사용자 정보를 저장하는 테이블입니다.  
+사용자는 `CREATOR` 또는 `STUDENT` 역할을 가질 수 있습니다.
 
----
-
-### LectureClass
-
-| 필드 | 설명 |
-|---|---|
-| id | 강의 ID |
-| creator_id | 강의 생성자 |
-| title | 강의 제목 |
-| description | 강의 설명 |
-| price | 가격 |
-| capacity | 최대 정원 |
-| current_enrollment_count | 현재 신청 인원 |
-| status | 강의 상태 |
+| 컬럼 | 타입 | 제약조건 | 설명 |
+|---|---|---|---|
+| id | BIGINT | PK, Identity | 사용자 ID |
+| name | VARCHAR(50) | NOT NULL | 사용자 이름 |
+| email | VARCHAR(100) | NOT NULL, UNIQUE | 사용자 이메일 |
+| role | VARCHAR(20) | NOT NULL, CHECK | 사용자 역할 (`CREATOR`, `STUDENT`) |
+| created_at | TIMESTAMP | NOT NULL | 생성 시간 |
+| updated_at | TIMESTAMP | NULL | 수정 시간 |
 
 ---
 
-### Enrollment
+### Classes (`classes`)
 
-| 필드 | 설명 |
+강의 정보를 저장하는 테이블입니다.  
+크리에이터가 강의를 생성하며, 강의 상태와 정원 정보를 관리합니다.
+
+| 컬럼 | 타입 | 제약조건 | 설명 |
+|---|---|---|---|
+| id | BIGINT | PK, Identity | 강의 ID |
+| creator_id | BIGINT | FK(users.id), NOT NULL | 강의 생성자 ID |
+| title | VARCHAR(255) | NOT NULL | 강의 제목 |
+| description | TEXT | NULL | 강의 설명 |
+| price | INTEGER | NOT NULL | 강의 가격 |
+| capacity | INTEGER | NOT NULL | 최대 수강 인원 |
+| current_enrollment_count | INTEGER | NOT NULL, DEFAULT 0 | 현재 신청 인원 |
+| status | VARCHAR(20) | NOT NULL, CHECK | 강의 상태 (`DRAFT`, `OPEN`, `CLOSED`) |
+| start_date | TIMESTAMP | NOT NULL | 수강 시작일 |
+| end_date | TIMESTAMP | NOT NULL | 수강 종료일 |
+| created_at | TIMESTAMP | NOT NULL | 생성 시간 |
+| updated_at | TIMESTAMP | NULL | 수정 시간 |
+
+---
+
+### Enrollment (`enrollments`)
+
+수강 신청 정보를 저장하는 테이블입니다.  
+학생과 강의를 연결하며, 신청 상태와 결제/취소 시간을 관리합니다.
+
+| 컬럼 | 타입 | 제약조건 | 설명 |
+|---|---|---|---|
+| id | BIGINT | PK, Identity | 수강 신청 ID |
+| class_id | BIGINT | FK(classes.id), NOT NULL | 신청한 강의 ID |
+| student_id | BIGINT | FK(users.id), NOT NULL | 신청한 학생 ID |
+| status | VARCHAR(20) | NOT NULL, CHECK | 신청 상태 (`PENDING`, `CONFIRMED`, `CANCELLED`) |
+| paid_at | TIMESTAMP | NULL | 결제 확정 시간 |
+| cancelled_at | TIMESTAMP | NULL | 취소 시간 |
+| created_at | TIMESTAMP | NOT NULL | 생성 시간 |
+| updated_at | TIMESTAMP | NULL | 수정 시간 |
+
+---
+
+### 테이블 관계
+
+| 관계 | 설명 |
 |---|---|
-| id | 신청 ID |
-| class_id | 강의 ID |
-| student_id | 학생 ID |
-| status | 신청 상태 |
-| paid_at | 결제 시간 |
-| cancelled_at | 취소 시간 |
+| User(CREATOR) 1 : N LectureClass | 한 크리에이터는 여러 강의를 생성할 수 있습니다. |
+| User(STUDENT) 1 : N Enrollment | 한 학생은 여러 강의에 신청할 수 있습니다. |
+| LectureClass 1 : N Enrollment | 하나의 강의에는 여러 수강 신청이 연결될 수 있습니다. |
 
 ---
 
