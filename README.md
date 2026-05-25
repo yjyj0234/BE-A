@@ -429,5 +429,5 @@ GET /api/enrollment/getClassUsers/{classId}/users?creatorId=1&page=0&size=10
 - 동시성 테스트
 - 결제 확정
 - 수강 취소
-- 7일 초과 취소 실패
-- 페이지네이션 조회
+- 결제 후 7일 초과 시 취소 실패
+- 수강 신청 내역 및 페이징 처리
