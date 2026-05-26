@@ -5,6 +5,11 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/**
+ * file: ClassResponse.java
+ * author: 손현정
+ * description: 강의 응답 데이터를 전달하는 DTO
+ */
 @Getter
 @Builder
 public class ClassResponse {

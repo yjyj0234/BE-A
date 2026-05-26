@@ -21,14 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+/**
+ * file: EnrollmentServiceTest.java
+ * author: 손현정
+ * description: 수강 신청 서비스의 주요 비즈니스 로직을 검증하는 테스트 클래스
+ */
 @SpringBootTest
 @Transactional
 class EnrollmentServiceTest {

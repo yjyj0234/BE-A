@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * file: LectureController.java
+ * author: 손현정
+ * description: 강의 등록, 조회, 모집 시작 및 마감 API를 제공하는 컨트롤러
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/classes")
@@ -25,9 +30,9 @@ public class LectureController {
         return lectureService.getClasses(status);
     }
 
-    @GetMapping("/getClass/{id}")
-    public ClassResponse getClass(@PathVariable Long id) {
-        return lectureService.getClass(id);
+    @GetMapping("/getClass/{classId}")
+    public ClassResponse getClass(@PathVariable Long classId) {
+        return lectureService.getClass(classId);
     }
 
     @PatchMapping("/{classId}/open")

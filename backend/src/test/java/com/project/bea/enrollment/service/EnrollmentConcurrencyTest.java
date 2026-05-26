@@ -19,6 +19,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * file: EnrollmentConcurrencyTest.java
+ * author: 손현정
+ * description: 동시성 처리(마지막 자리에 여러사람이 신청)를 위한 테스트 클래스
+ */
 @SpringBootTest
 class EnrollmentConcurrencyTest {
 

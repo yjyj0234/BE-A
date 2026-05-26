@@ -7,11 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
+/**
+ * file: EnrollmentController.java
+ * author: 손현정
+ * description: 수강 신청, 결제 확정, 취소 및 조회 API를 제공하는 컨트롤러
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/enrollment")

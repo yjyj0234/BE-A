@@ -11,6 +11,11 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * file: LectureClass.java
+ * author: 손현정
+ * description: 강의 정보와 정원 및 모집 상태를 관리하는 엔티티
+ */
 @Getter
 @NoArgsConstructor
 @Entity
@@ -77,6 +82,8 @@ public class LectureClass {
         }
 
         this.currentEnrollmentCount--;
+        reopenIfAvailable();
+
     }
 
     //신청 가능한 강의 여부
@@ -104,6 +111,15 @@ public class LectureClass {
         }
 
         this.status = ClassStatus.CLOSED;
+    }
+
+    //정원이 찼다가 안찼을 때 다시 오픈할 수 있게하는 메서드
+    private void reopenIfAvailable() {
+        if (this.status == ClassStatus.CLOSED
+                && this.currentEnrollmentCount < this.capacity
+                && LocalDateTime.now().isBefore(this.endDate)) {
+            this.status = ClassStatus.OPEN;
+        }
     }
 }
 

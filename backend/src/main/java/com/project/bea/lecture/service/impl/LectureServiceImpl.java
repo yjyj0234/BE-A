@@ -15,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * file: LectureServiceImpl.java
+ * author: 손현정
+ * description: 강의 관련 비즈니스 로직을 처리하는 ServiceImpl
+ */
 @Service
 @RequiredArgsConstructor
 public class LectureServiceImpl implements LectureService {

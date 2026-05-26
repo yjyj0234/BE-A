@@ -11,6 +11,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * file: LectureClassRepository.java
+ * author: 손현정
+ * description: 강의 데이터 접근 및 비관적 락 조회를 담당하는 JPA Repository
+ */
 public interface LectureClassRepository extends JpaRepository<LectureClass, Long> {
 
     //동시성 처리 관련 비관적 락 메서드

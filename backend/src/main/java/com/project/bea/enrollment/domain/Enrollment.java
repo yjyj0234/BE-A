@@ -12,6 +12,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * file: Enrollment.java
+ * author: 손현정
+ * description: 수강 신청 정보와 신청 상태를 관리하는 엔티티
+ */
 @Getter
 @NoArgsConstructor
 @Entity

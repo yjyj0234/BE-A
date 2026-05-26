@@ -10,6 +10,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * file: User.java
+ * author: 손현정
+ * description: 사용자 정보를 관리하는 엔티티
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

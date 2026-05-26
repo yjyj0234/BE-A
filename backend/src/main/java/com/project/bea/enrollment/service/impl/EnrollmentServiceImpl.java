@@ -6,7 +6,6 @@ import com.project.bea.enrollment.dto.CreateEnrollmentRequest;
 import com.project.bea.enrollment.dto.EnrollmentResponse;
 import com.project.bea.enrollment.repository.EnrollmentRepository;
 import com.project.bea.enrollment.service.EnrollmentService;
-import com.project.bea.lecture.domain.ClassStatus;
 import com.project.bea.lecture.domain.LectureClass;
 import com.project.bea.lecture.repository.LectureClassRepository;
 import com.project.bea.user.domain.User;
@@ -18,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * file: EnrollmentServiceImpl.java
@@ -49,16 +48,20 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         LectureClass lectureClass = lectureClassRepository.findByIdForUpdate(request.getClassId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
 
-        System.out.println("요청 classId = " + request.getClassId());
-        System.out.println("조회된 강의 id = " + lectureClass.getId());
-        System.out.println("capacity = " + lectureClass.getCapacity());
-        System.out.println("current = " + lectureClass.getCurrentEnrollmentCount());
-
         if (!lectureClass.isOpen()) {
             throw new IllegalArgumentException("모집 중인 강의만 신청할 수 있습니다.");
         }
 
-        if (enrollmentRepository.existsByStudentAndLectureClass(student, lectureClass)) {
+        Optional<Enrollment> existingEnrollment =
+                enrollmentRepository.findByStudentAndLectureClass(student, lectureClass);
+
+        if (existingEnrollment.isPresent()) {
+            Enrollment enrollment = existingEnrollment.get();
+
+            if (enrollment.getStatus() == EnrollmentStatus.CANCELLED) {
+                throw new IllegalArgumentException("취소한 강의는 다시 신청할 수 없습니다.");
+            }
+
             throw new IllegalArgumentException("이미 수강 신청한 강의입니다.");
         }
 
@@ -111,6 +114,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             throw new IllegalArgumentException("신청한 사용자만 처리할 수 있습니다.");
         }
 
+        LectureClass lectureClass = enrollment.getLectureClass();
+
         enrollment.cancel();
 
         enrollment.getLectureClass().decreaseEnrollmentCount();
@@ -152,7 +157,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             throw new IllegalArgumentException("강의 생성자만 수강생 목록을 조회할 수 있습니다.");
         }
 
-        return enrollmentRepository.findByLectureClassId(classId, pageable)
+        return enrollmentRepository.findByLectureClassIdAndStatusNot(classId, EnrollmentStatus.CANCELLED, pageable)
+
                 .map(this::toResponse);
     }
 

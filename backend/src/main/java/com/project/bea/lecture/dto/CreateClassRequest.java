@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * file: CreateClassRequest.java
+ * author: 손현정
+ * description: 강의 등록 요청 데이터를 전달하는 DTO
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

@@ -5,8 +5,11 @@ import com.project.bea.enrollment.dto.EnrollmentResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
+/**
+ * file: EnrollmentService.java
+ * author: 손현정
+ * description: 수강 신청 관련 비즈니스 로직의 인터페이스
+ */
 public interface EnrollmentService {
 
     EnrollmentResponse createEnrollment(CreateEnrollmentRequest request);

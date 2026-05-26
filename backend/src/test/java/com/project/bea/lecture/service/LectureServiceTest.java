@@ -19,6 +19,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+/**
+ * file: LectureServiceTest.java
+ * author: 손현정
+ * description: 강의 서비스의 주요 비즈니스 로직을 검증하는 테스트 클래스
+ */
 @SpringBootTest
 @Transactional
 class LectureServiceTest {
