@@ -392,6 +392,9 @@ GET /api/enrollment/getClassUsers/{classId}/users?creatorId=1&page=0&size=10
 ---
 
 ### 테이블 관계
+ 엔티티 관계도
+<img width="606" height="500" alt="image" src="https://github.com/user-attachments/assets/522d74e8-f284-4e15-b6c1-35c8d6ea08aa" />
+
 
 | 관계 | 설명 |
 |---|---|
